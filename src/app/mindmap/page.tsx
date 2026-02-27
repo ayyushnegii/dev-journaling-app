@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
   Brain,
-  Center,
+  Crosshair,
   GitFork,
   Plus,
   Search,
@@ -97,7 +97,7 @@ export default function MindmapPage() {
         
         <div className="absolute bottom-6 right-6 flex flex-col gap-3">
           <Button variant="outline" size="icon" className="size-11 rounded-2xl glass-card active:bg-white/20"><ZoomIn/></Button>
-          <Button variant="outline" size="icon" className="size-11 rounded-2xl glass-card active:bg-white/20"><Center/></Button>
+          <Button variant="outline" size="icon" className="size-11 rounded-2xl glass-card active:bg-white/20"><Crosshair/></Button>
           <Button size="icon" className="size-14 rounded-full bg-primary neon-glow-primary border-2 border-background mt-2 active:scale-95 transition-transform"><Plus className="size-8" /></Button>
         </div>
       </main>

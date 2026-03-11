@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AuthForm } from "@/components/auth-form";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, GitFork } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {

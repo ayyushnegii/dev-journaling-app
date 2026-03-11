@@ -13,6 +13,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { cn } from '@/lib/utils';
 
 export default function DashboardPage() {
   const userAvatar = PlaceHolderImages.find(
@@ -59,12 +60,16 @@ export default function DashboardPage() {
 
   return (
     <AppShell activeTab="dashboard">
-      <header className="flex items-center px-4 pt-6 pb-6 justify-between sticky top-0 z-10 bg-background/80 backdrop-blur-sm">
+      <header className="flex items-center px-4 pt-6 pb-6 lg:pt-10 lg:pb-8 justify-between sticky top-0 z-10 bg-background/80 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold tracking-tight">Hi, there</h1>
-          <p className="text-sm text-muted-foreground">System status: Creative</p>
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Hi, there</h1>
+          <p className="text-sm text-muted-foreground italic">System status: Creative</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/30 border border-border">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Live Syncing</span>
+          </div>
           <ThemeToggle />
           <Avatar className="h-11 w-11 border-2 border-primary/50">
             <AvatarImage src={userAvatar?.imageUrl} alt="User avatar" />
@@ -73,130 +78,148 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-4 space-y-8 pb-8">
-        <section>
-          <div className="flex w-full justify-between items-center text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 mb-4">
-            {days.map((day) => (
-              <span key={day}>{day.charAt(0)}</span>
-            ))}
-          </div>
-          <div className="flex justify-between items-center gap-2">
-            {weekDates.map((date, i) => (
-              <div
-                key={i}
-                className={`flex flex-col items-center justify-center min-w-[44px] h-14 rounded-2xl font-bold text-sm transition-colors ${
-                  date.getDate() === today.getDate()
-                    ? 'bg-primary text-primary-foreground neon-glow-primary'
-                    : 'glass-card text-foreground'
-                }`}
-              >
-                <span>{date.getDate()}</span>
+      <div className="px-4 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Main Feed Column */}
+          <div className="lg:col-span-8 flex flex-col space-y-8">
+            <section className="order-2 lg:order-none">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">Quick Logs</h3>
+                <Button variant="link" className="text-muted-foreground h-auto p-0 text-xs">
+                  See all
+                </Button>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-bold">Focus Session</h3>
-            <Button variant="link" className="text-primary h-auto p-0">
-              View Timeline
-            </Button>
-          </div>
-          <Card className="glass-card rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-52 border-primary/20">
-            <div className="absolute -right-4 -top-4 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-primary/10 to-transparent"></div>
-            <div className="relative z-10">
-              <h4 className="text-xl font-bold leading-tight">
-                Deep Work Pulse
-              </h4>
-              <p className="text-muted-foreground text-xs mt-2 max-w-[160px]">
-                Log your technical breakthroughs and architecture decisions.
-              </p>
-            </div>
-            <Link
-              href={`/journal/${today.toISOString().split('T')[0]}`}
-              className="relative z-10 flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-                <Terminal className="size-5 text-primary" />
+              <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 lg:mx-0 px-4 lg:px-0 scrollbar-hide">
+                {quickLogs.map((log, i) => (
+                  <Card
+                    key={i}
+                    className={`min-w-[160px] lg:min-w-[200px] glass-card rounded-2xl p-5 flex flex-col gap-3 border-l-4 ${
+                      log.color === 'primary'
+                        ? 'border-l-primary/70'
+                        : log.color === 'accent'
+                        ? 'border-l-accent/70'
+                        : 'border-l-muted/70'
+                    } hover:border-l-primary transition-all duration-300`}
+                  >
+                    <h4 className="text-sm font-bold">{log.title}</h4>
+                    <p className="text-[12px] text-muted-foreground leading-relaxed flex-1">
+                      {log.description}
+                    </p>
+                    <div className="mt-2 flex justify-between items-center">
+                      <span className={`text-[9px] font-black uppercase ${
+                          log.color === 'primary' ? 'text-primary' : log.color === 'accent' ? 'text-accent' : 'text-muted-foreground'
+                        }`}
+                      >
+                        {log.tag}
+                      </span>
+                    </div>
+                  </Card>
+                ))}
               </div>
-              <span className="text-xs font-bold text-primary tracking-wide">
-                Start Today's Entry
-              </span>
-              <ArrowRight className="size-4 text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-            </Link>
-          </Card>
-        </section>
+            </section>
 
-        <section>
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-bold">Quick Logs</h3>
-            <Button variant="link" className="text-muted-foreground h-auto p-0">
-              Edit Layout
-            </Button>
-          </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
-            {quickLogs.map((log, i) => (
-              <Card
-                key={i}
-                className={`min-w-[160px] glass-card rounded-2xl p-5 flex flex-col gap-3 border-l-4 ${
-                  log.color === 'primary'
-                    ? 'border-l-primary'
-                    : log.color === 'accent'
-                    ? 'border-l-accent'
-                    : 'border-l-muted'
-                }`}
-              >
-                <h4 className="text-sm font-bold">{log.title}</h4>
-                <p className="text-[12px] text-muted-foreground leading-relaxed flex-1">
-                  {log.description}
-                </p>
-                <div className="mt-2 flex justify-between items-center">
-                  <span
-                    className={`text-[9px] font-black uppercase ${
-                      log.color === 'primary'
-                        ? 'text-primary'
-                        : log.color === 'accent'
-                        ? 'text-accent'
-                        : 'text-muted-foreground'
-                    }`}
-                  >
-                    {log.tag}
-                  </span>
-                  <span
-                    className={`text-[9px] px-2 py-0.5 rounded-md font-bold ${
-                      log.color === 'primary'
-                        ? 'bg-primary/10 text-primary'
-                        : log.color === 'accent'
-                        ? 'bg-accent/10 text-accent'
-                        : 'bg-muted/50 text-muted-foreground'
-                    }`}
-                  >
-                    {log.category}
-                  </span>
+            <section>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">Current Focus</h3>
+                <Button variant="link" className="text-primary h-auto p-0 font-bold">
+                  Review Journey
+                </Button>
+              </div>
+              <Card className="glass-card rounded-3xl p-8 lg:p-10 relative overflow-hidden flex flex-col justify-between min-h-[220px] lg:min-h-[260px] border-primary/10">
+                <div className="absolute right-[-5%] top-[-10%] w-[40%] h-[60%] bg-primary/20 rounded-full blur-[80px]"></div>
+                <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[40%] bg-accent/15 rounded-full blur-[60px]"></div>
+                
+                <div className="relative z-10 max-w-md">
+                  <h4 className="text-2xl lg:text-3xl font-bold leading-tight mb-4">
+                    Deep Work Pulse
+                  </h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                    Analyze your cognitive load and technical growth through structured journaling.
+                  </p>
                 </div>
+                
+                <Link
+                  href={`/journal/${today.toISOString().split('T')[0]}`}
+                  className="relative z-10 flex items-center justify-between group bg-background/50 hover:bg-background/80 transition-colors p-4 rounded-2xl border border-white/5 w-full lg:max-w-xs"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
+                      <Terminal className="size-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-bold tracking-wide">
+                      Entry: {today.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}
+                    </span>
+                  </div>
+                  <ArrowRight className="size-5 text-primary group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Card>
-            ))}
-          </div>
-        </section>
+            </section>
 
-        <section>
-          <h3 className="text-lg font-bold mb-4">Active Clusters</h3>
-          <div className="flex flex-wrap gap-3">
-            {activeClusters.map((cluster, i) => (
-              <Button
-                key={i}
-                variant="ghost"
-                className="px-5 py-2.5 h-auto glass-card rounded-xl text-xs font-bold flex items-center gap-2 border-white/10 hover:border-primary/50 transition-colors hover:bg-primary/10"
-              >
-                {cluster.icon}
-                <span>{cluster.label}</span>
-              </Button>
-            ))}
+            <section>
+              <h3 className="text-lg font-bold mb-4">Active Clusters</h3>
+              <div className="flex flex-wrap gap-3">
+                {activeClusters.map((cluster, i) => (
+                  <Button
+                    key={i}
+                    variant="ghost"
+                    className="px-5 py-3 h-auto glass-card rounded-xl text-xs font-bold flex items-center gap-3 border-white/5 hover:border-primary/40 transition-all hover:bg-primary/5 hover:-translate-y-0.5"
+                  >
+                    {cluster.icon}
+                    <span>{cluster.label}</span>
+                  </Button>
+                ))}
+              </div>
+            </section>
           </div>
-        </section>
-      </main>
+
+          {/* Side Column (Stats/Calendar) */}
+          <div className="lg:col-span-4 flex flex-col space-y-8">
+            <section className="glass-card rounded-2xl p-6 border-white/5">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground">Pulse Week</h3>
+                <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold uppercase tracking-tight">Active</span>
+              </div>
+              <div className="grid grid-cols-7 gap-2">
+                {days.map((day) => (
+                  <span key={day} className="text-[10px] text-center font-bold text-muted-foreground uppercase opacity-50">{day.charAt(0)}</span>
+                ))}
+                {weekDates.map((date, i) => (
+                  <div
+                    key={i}
+                    className={cn(
+                      "flex flex-col items-center justify-center aspect-square rounded-lg font-bold text-xs transition-all",
+                      date.getDate() === today.getDate()
+                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
+                        : 'hover:bg-muted/50 text-foreground'
+                    )}
+                  >
+                    <span>{date.getDate()}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="glass-card rounded-2xl p-6 border-white/5 flex-1 min-h-[200px]">
+              <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground mb-4">Memory Index</h3>
+              <div className="space-y-4">
+                {[
+                  { label: 'Total Links', count: 124, trend: '+12' },
+                  { label: 'Connections', count: 48, trend: '+5' },
+                  { label: 'Deep Units', count: 32, trend: '+2' },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex justify-between items-end border-b border-border/50 pb-3">
+                    <div>
+                      <p className="text-[10px] font-bold text-muted-foreground mb-1">{stat.label}</p>
+                      <p className="text-xl font-bold">{stat.count}</p>
+                    </div>
+                    <span className="text-[10px] text-green-500 font-bold">{stat.trend}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </AppShell>
   );
 }

@@ -2,9 +2,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
+import { AppShell } from '@/components/app-shell';
 import {
   ChevronLeft,
-  Delete,
+  Trash2,
   FilePenLine,
   MoreHorizontal,
   Play,
@@ -29,13 +30,13 @@ export default function JournalEntryPage({ params }: JournalEntryPageProps) {
   });
 
   return (
-    <div className="bg-neutral-950 flex justify-center items-center min-h-screen p-0 sm:p-4">
-      <div className="relative w-full max-w-[430px] h-screen sm:h-[884px] bg-background border-x-0 sm:border-x border-border shadow-2xl overflow-hidden flex flex-col sm:rounded-[3rem]">
+    <AppShell activeTab="dashboard">
+      <div className="relative flex-1 flex flex-col">
         <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none z-0"></div>
 
-        <header className="flex-shrink-0 pt-8 px-4 flex items-center justify-between relative z-10">
+        <header className="flex-shrink-0 pt-8 lg:pt-12 px-4 flex items-center justify-between relative z-10">
           <Link href="/">
-            <Button variant="ghost" size="icon" className="glass-card">
+            <Button variant="ghost" size="icon" className="glass-card hover:bg-primary/10 transition-colors">
               <ChevronLeft className="size-5" />
             </Button>
           </Link>
@@ -43,30 +44,30 @@ export default function JournalEntryPage({ params }: JournalEntryPageProps) {
             <span className="text-xs font-bold text-primary tracking-widest uppercase">
               {formattedDate}
             </span>
-            <h1 className="text-xl font-semibold tracking-tight mt-0.5">
+            <h1 className="text-xl lg:text-3xl font-bold tracking-tight mt-0.5">
               Morning Reflection
             </h1>
           </div>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="hover:bg-primary/10">
             <MoreHorizontal className="text-muted-foreground" />
           </Button>
         </header>
 
-        <main className="flex-1 overflow-y-auto px-6 pt-6 pb-32 relative z-0">
-          <div className="flex flex-wrap gap-2 justify-center mb-8">
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+        <main className="flex-1 px-6 pt-10 pb-32 relative z-0 max-w-2xl mx-auto w-full">
+          <div className="flex flex-wrap gap-2 justify-center mb-10">
+            <span className="px-4 py-1.5 bg-primary/5 border border-primary/20 rounded-full text-[10px] font-bold text-primary uppercase tracking-wider">
               Personal
             </span>
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+            <span className="px-4 py-1.5 bg-accent/5 border border-accent/20 rounded-full text-[10px] font-bold text-accent uppercase tracking-wider">
               Calm
             </span>
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+            <span className="px-4 py-1.5 bg-muted/20 border border-white/5 rounded-full text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
               Motivation
             </span>
           </div>
 
           {heroImage && (
-            <div className="relative w-full aspect-[16/10] rounded-3xl overflow-hidden mb-8 shadow-lg">
+            <div className="relative w-full aspect-[16/10] rounded-[2.5rem] overflow-hidden mb-12 shadow-2xl border border-white/5">
               <Image
                 src={heroImage.imageUrl}
                 alt="Hero entry image"
@@ -74,63 +75,63 @@ export default function JournalEntryPage({ params }: JournalEntryPageProps) {
                 className="object-cover"
                 data-ai-hint={heroImage.imageHint}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
             </div>
           )}
 
-          <div className="glass-card rounded-full p-2 pr-6 flex items-center gap-3 mb-10">
+          <div className="glass-card rounded-[2rem] p-3 pr-8 flex items-center gap-4 mb-12 border-primary/10 shadow-lg">
             <Button
               size="icon"
-              className="w-10 h-10 bg-primary rounded-full shadow-lg neon-glow-primary flex-shrink-0"
+              className="w-12 h-12 bg-primary rounded-full shadow-lg neon-glow-primary flex-shrink-0 hover:scale-105 transition-transform"
             >
-              <Play className="text-primary-foreground fill-current" />
+              <Play className="text-primary-foreground fill-current size-5" />
             </Button>
-            <div className="flex-1 flex items-center h-4 gap-px overflow-hidden">
-              {Array.from({ length: 30 }).map((_, i) => (
+            <div className="flex-1 flex items-center h-6 gap-1 overflow-hidden">
+              {Array.from({ length: 40 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`w-1 rounded-full ${i < 15 ? 'bg-primary' : 'bg-muted/50'}`}
+                  className={`w-1 rounded-full ${i < 18 ? 'bg-primary' : 'bg-muted/50'}`}
                   style={{ height: `${Math.random() * 80 + 20}%` }}
                 />
               ))}
             </div>
-            <span className="text-xs font-mono font-medium text-primary">
+            <span className="text-[10px] font-black font-mono text-primary bg-primary/10 px-2 py-1 rounded">
               00:32
             </span>
           </div>
 
-          <div className="space-y-6 text-base font-light leading-relaxed text-foreground/90">
+          <div className="space-y-8 text-lg font-light leading-relaxed text-foreground/90 pb-20">
             <p>
               I woke up to the soft light filtering through my window, and for
               the first time in a while, I didn't rush to check my phone.
               Instead, I took a deep breath and stretched, feeling my body wake
               up slowly.
             </p>
-            <ul className="space-y-4">
-              <li className="flex gap-4 items-start">
-                <span className="text-primary mt-2.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_8px_hsl(var(--primary)/0.6)]"></span>
-                <span>The warmth of my morning tea</span>
+            <ul className="space-y-6 ml-4">
+              <li className="flex gap-5 items-start">
+                <span className="text-primary mt-3 w-2 h-2 rounded-full bg-primary shrink-0 shadow-[0_0_10px_hsl(var(--primary)/0.6)]"></span>
+                <span className="font-medium">The warmth of my morning tea</span>
               </li>
-              <li className="flex gap-4 items-start">
-                <span className="text-primary mt-2.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0 shadow-[0_0_8px_hsl(var(--primary)/0.6)]"></span>
-                <span>A quiet moment to myself before the day starts</span>
+              <li className="flex gap-5 items-start">
+                <span className="text-primary mt-3 w-2 h-2 rounded-full bg-primary shrink-0 shadow-[0_0_10px_hsl(var(--primary)/0.6)]"></span>
+                <span className="font-medium">A quiet moment to myself before the day starts</span>
               </li>
             </ul>
-            <blockquote className="text-muted-foreground italic font-light border-l-2 border-border pl-4 py-1">
-              The journey of a thousand miles begins with a single step.
+            <blockquote className="text-muted-foreground italic font-medium border-l-4 border-primary/30 pl-6 py-2 bg-muted/10 rounded-r-xl">
+              "The journey of a thousand miles begins with a single step."
             </blockquote>
              <p>
-             This simple act of being present set a peaceful tone for the rest of the day. It's a small change, but it feels significant.
+              This simple act of being present set a peaceful tone for the rest of the day. It's a small change, but it feels significant.
             </p>
           </div>
         </main>
 
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center px-6 z-20">
-          <div className="glass-card shadow-2xl rounded-full px-3 py-2 flex items-center gap-4">
+        <div className="fixed bottom-8 left-1/2 lg:left-auto lg:right-12 -translate-x-1/2 lg:translate-x-0 flex justify-center z-30">
+          <div className="glass-card shadow-2xl rounded-full px-4 py-3 flex items-center gap-5 border border-white/10 backdrop-blur-2xl">
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors"
+              className="w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors hover:bg-primary/5"
             >
               <FilePenLine className="size-5" />
             </Button>
@@ -138,7 +139,7 @@ export default function JournalEntryPage({ params }: JournalEntryPageProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors"
+              className="w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors hover:bg-primary/5"
             >
               <Share className="size-5" />
             </Button>
@@ -146,13 +147,13 @@ export default function JournalEntryPage({ params }: JournalEntryPageProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 rounded-full text-destructive/70 hover:text-destructive transition-colors"
+              className="w-12 h-12 rounded-full text-destructive/70 hover:text-destructive transition-colors hover:bg-destructive/5"
             >
-              <Delete className="size-5" />
+              <Trash2 className="size-5" />
             </Button>
           </div>
         </div>
       </div>
-    </div>
+    </AppShell>
   );
 }

@@ -57,61 +57,81 @@ export default function MindmapPage() {
             </div>
           </div>
           
-          <main className="relative flex-1 min-h-[450px] lg:min-h-[550px] overflow-hidden mindmap-area rounded-[2.5rem] border border-white/10 bg-black/40 shadow-2xl backdrop-blur-sm">
+          <main className="relative flex-1 min-h-[450px] lg:min-h-[650px] overflow-hidden mindmap-area rounded-[2.5rem] border border-border bg-background/20 shadow-2xl backdrop-blur-sm group/canvas">
             <div 
-              className="absolute inset-0 opacity-20"
+              className="absolute inset-0 opacity-20 transition-opacity duration-700 group-hover/canvas:opacity-30"
               style={{
                 backgroundImage: 'radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)',
                 backgroundSize: '40px 40px'
               }}
             />
+            
+            {/* Desktop Side Toolbar */}
+            <div className="hidden lg:flex absolute left-6 top-1/2 -translate-y-1/2 flex-col gap-2 p-1.5 rounded-2xl glass-morphism border-white/5 z-20">
+               <Button variant="ghost" size="icon" className="size-10 rounded-xl hover:bg-primary/20 hover:text-primary transition-all" title="Select Tool (V)"><Crosshair className="size-4" /></Button>
+               <Button variant="ghost" size="icon" className="size-10 rounded-xl hover:bg-primary/20 hover:text-primary transition-all" title="Pan Tool (H)"><Zap className="size-4" /></Button>
+               <div className="h-px w-6 bg-white/10 mx-auto" />
+               <Button variant="ghost" size="icon" className="size-10 rounded-xl hover:bg-primary/20 hover:text-primary transition-all" title="Add Node (N)"><Plus className="size-4" /></Button>
+            </div>
+
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none"
-              style={{ filter: 'drop-shadow(0 0 5px currentColor)'}}
+              style={{ filter: 'drop-shadow(0 0 8px currentColor)'}}
             >
-              <path d="M 40% 50% Q 30% 40%, 20% 30%" fill="none" className="text-neon-emerald opacity-60" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5"></path>
-              <path d="M 60% 50% Q 70% 35%, 80% 25%" fill="none" className="text-neon-sapphire opacity-60" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5"></path>
-              <path d="M 50% 60% Q 50% 80%, 40% 85%" fill="none" className="text-neon-ruby opacity-60" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5"></path>
-              <path d="M 60% 55% Q 75% 75%, 85% 80%" fill="none" className="text-neon-gold opacity-60" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5"></path>
+              <path d="M 40% 50% Q 30% 40%, 20% 30%" fill="none" className="text-neon-emerald opacity-60 animate-pulse" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" strokeDasharray="5,5"></path>
+              <path d="M 60% 50% Q 70% 35%, 80% 25%" fill="none" className="text-neon-sapphire opacity-60 animate-pulse" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" strokeDasharray="5,5"></path>
+              <path d="M 50% 60% Q 50% 80%, 40% 85%" fill="none" className="text-neon-ruby opacity-60 animate-pulse" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" strokeDasharray="5,5"></path>
+              <path d="M 60% 55% Q 75% 75%, 85% 80%" fill="none" className="text-neon-gold opacity-60 animate-pulse" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" strokeDasharray="5,5"></path>
             </svg>
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="size-32 lg:size-40 rounded-full bg-background border-2 border-primary neon-glow-primary flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-2xl">
+              <div className="size-32 lg:size-44 rounded-full bg-background border-2 border-primary neon-glow-primary flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer shadow-2xl z-10 group/center">
                 <div className="flex flex-col items-center">
-                  <GitFork className="mb-2 text-primary size-6 lg:size-8" />
-                  <span className="font-black text-sm lg:text-lg tracking-[0.2em] uppercase">System</span>
+                  <GitFork className="mb-2 text-primary size-6 lg:size-10 group-hover/center:rotate-180 transition-transform duration-500" />
+                  <span className="font-black text-xs lg:text-base tracking-[0.3em] uppercase">Core</span>
                 </div>
               </div>
             </div>
 
             <div className="absolute top-[25%] left-[20%] -translate-x-1/2 -translate-y-1/2">
-              <div className="size-24 lg:size-28 rounded-full glass-card border-neon-emerald/30 neon-glow-accent flex items-center justify-center text-center p-2 hover:scale-110 transition-transform cursor-pointer">
-                <span className="text-neon-emerald font-black text-[10px] lg:text-xs uppercase tracking-widest">Architecture</span>
+              <div className="size-24 lg:size-32 rounded-3xl glass-card border-neon-emerald/30 neon-glow-accent flex items-center justify-center text-center p-2 hover:scale-110 transition-all cursor-pointer hover:border-neon-emerald active:scale-95">
+                <span className="text-neon-emerald font-black text-[10px] lg:text-xs uppercase tracking-[0.2em]">Architecture</span>
               </div>
             </div>
 
             <div className="absolute top-[20%] left-[85%] -translate-x-1/2 -translate-y-1/2">
-              <div className="size-20 lg:size-24 rounded-full glass-card border-primary/30 neon-glow-primary flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
-                <span className="text-primary font-black text-[10px] uppercase tracking-widest">API v2</span>
+              <div className="size-20 lg:size-28 rounded-full glass-card border-primary/30 neon-glow-primary flex items-center justify-center hover:scale-110 transition-all cursor-pointer hover:border-primary active:scale-95">
+                <span className="text-primary font-black text-[10px] uppercase tracking-[0.2em]">API v2</span>
               </div>
             </div>
 
             <div className="absolute top-[85%] left-[35%] -translate-x-1/2 -translate-y-1/2">
-              <div className="size-28 lg:size-32 rounded-full glass-card border-neon-ruby/30 shadow-[0_0_30px_theme(colors.neon-ruby/0.2)] flex items-center justify-center text-center px-4 hover:scale-110 transition-transform cursor-pointer">
-                <span className="text-neon-ruby font-black text-[10px] lg:text-xs uppercase tracking-widest leading-tight">Security Protocol</span>
+              <div className="size-28 lg:size-36 rounded-[2rem] glass-card border-neon-ruby/30 shadow-[0_0_30px_theme(colors.neon-ruby/0.2)] flex items-center justify-center text-center px-4 hover:scale-110 transition-all cursor-pointer hover:border-neon-ruby active:scale-95">
+                <span className="text-neon-ruby font-black text-[10px] lg:text-xs uppercase tracking-[0.1em] leading-tight">Security Protocol</span>
               </div>
             </div>
 
             <div className="absolute top-[80%] left-[75%] -translate-x-1/2 -translate-y-1/2">
-              <div className="size-16 lg:size-20 rounded-full glass-card border-neon-gold/30 flex items-center justify-center shadow-[0_0_20px_theme(colors.neon-gold/0.2)] hover:scale-110 transition-transform cursor-pointer">
-                <span className="text-neon-gold font-black text-[10px] uppercase tracking-widest">Assets</span>
+              <div className="size-16 lg:size-24 rounded-2xl glass-card border-neon-gold/30 flex items-center justify-center shadow-[0_0_20px_theme(colors.neon-gold/0.2)] hover:scale-110 transition-all cursor-pointer hover:border-neon-gold active:scale-95">
+                <span className="text-neon-gold font-black text-[10px] uppercase tracking-[0.2em]">Assets</span>
               </div>
             </div>
             
-            <div className="absolute bottom-8 right-8 flex flex-col gap-4">
-              <Button variant="outline" size="icon" className="size-12 rounded-2xl glass-card hover:bg-white/10 border-white/5 transition-all"><ZoomIn/></Button>
-              <Button variant="outline" size="icon" className="size-12 rounded-2xl glass-card hover:bg-white/10 border-white/5 transition-all"><Crosshair/></Button>
-              <Button size="icon" className="size-16 rounded-full bg-primary neon-glow-primary border-4 border-background mt-2 hover:scale-110 transition-transform shadow-2xl"><Plus className="size-10" /></Button>
+            <div className="absolute bottom-10 right-10 flex flex-col gap-4">
+              <div className="hidden lg:flex flex-col gap-2 mb-4 p-2 rounded-2xl glass-morphism border-white/5 opacity-50 hover:opacity-100 transition-opacity">
+                 <div className="flex items-center gap-4 px-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Zoom</span>
+                    <span className="text-[10px] font-mono text-primary">100%</span>
+                 </div>
+                 <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-full w-1/2 bg-primary" />
+                 </div>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="icon" className="size-12 rounded-2xl glass-card hover:bg-white/10 border-white/5 transition-all desktop-hover"><ZoomIn className="size-5"/></Button>
+                <Button variant="outline" size="icon" className="size-12 rounded-2xl glass-card hover:bg-white/10 border-white/5 transition-all desktop-hover"><Crosshair className="size-5"/></Button>
+              </div>
+              <Button size="icon" className="size-20 rounded-[2rem] bg-primary neon-glow-primary border-4 border-background mt-2 hover:scale-110 transition-transform shadow-2xl active:scale-95"><Plus className="size-8" /></Button>
             </div>
           </main>
 
